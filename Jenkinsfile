@@ -1,26 +1,20 @@
 pipeline {
     agent any
     stages {
-        stage('Install Dependencies') {
+        stage('Setup') {
             steps {
-                echo 'Installing dependencies...'
-                sh 'pip install --upgrade pip'
-                sh 'pip install -r requirements.txt'
+                echo 'Creating virtual environment...'
+                sh 'python3 -m venv venv'
             }
         }
-        stage('Run & Package') {
+        stage('Test & Package') {
             steps {
-                echo 'Running tests...'
-                sh 'pytest tests/'
+                echo 'Installing dependencies and running tests...'
+                sh '. venv/bin/activate && pip install -r requirements.txt'
+                sh '. venv/bin/activate && pytest tests/'
                 echo 'Packaging application...'
-                sh 'python setup.py sdist bdist_wheel'
+                sh '. venv/bin/activate && python setup.py sdist bdist_wheel'
             }
-        }
-    }
-    post {
-        always {
-            echo 'Pipeline finished!'
-            // Optionally clean up artifacts
         }
     }
 }
