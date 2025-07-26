@@ -1,35 +1,26 @@
 pipeline {
     agent any
-    environment {
-        VENV_DIR = "${WORKSPACE}/venv"
-    }
     stages {
-        stage('Create Virtualenv') {
-            steps {
-                echo 'Creating virtual environment...'
-                sh 'python3 -m venv $VENV_DIR'
-                // Fix permissions
-                sh 'chmod +rx $VENV_DIR/bin/activate'
-                sh '. $VENV_DIR/bin/activate && pip install --upgrade pip'
-            }
-        }
         stage('Install Dependencies') {
             steps {
-                echo 'Installing dependencies in virtualenv...'
-                sh '. $VENV_DIR/bin/activate && pip install -r requirements.txt'
+                echo 'Installing dependencies...'
+                sh 'pip install --upgrade pip'
+                sh 'pip install -r requirements.txt'
             }
         }
-        stage('Run Tests') {
+        stage('Run & Package') {
             steps {
                 echo 'Running tests...'
-                sh '. $VENV_DIR/bin/activate && pytest tests/ || echo "No tests found."'
+                sh 'pytest tests/'
+                echo 'Packaging application...'
+                sh 'python setup.py sdist bdist_wheel'
             }
         }
     }
     post {
         always {
-            echo 'Cleaning up virtual environment...'
-            sh 'rm -rf $VENV_DIR'
+            echo 'Pipeline finished!'
+            // Optionally clean up artifacts
         }
     }
 }
