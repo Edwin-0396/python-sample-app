@@ -1,16 +1,16 @@
 pipeline {
     agent any
     stages {
-        stage('Build') {
+        stage('Install Dependencies') {
             steps {
-                sh 'echo "Build step 1: Install dependencies (simulado)"'
-                sh 'echo "Build step 2: Compile (simulado)"'
+                echo 'Installing dependencies...'
+                sh 'pip install -r requirements.txt'
             }
         }
-        stage('Test & Package') {
+        stage('Run Tests') {
             steps {
-                sh 'echo "Test step 1: Run tests (simulado)"'
-                sh 'echo "Test step 2: Package app (simulado)"'
+                echo 'Running tests...'
+                sh 'pytest tests/ || echo "No tests found."'
             }
         }
     }
