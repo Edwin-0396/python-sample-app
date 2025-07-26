@@ -25,11 +25,11 @@ pipeline {
 
             }
         }
-        post {
+    }
+    post {
             always{
                 echo 'Cleaning up virtual environment...'
                 sh 'rm -rf $VENV_DIR'
             }
-        }
     }
 }
