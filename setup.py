@@ -8,8 +8,10 @@ with open("README.md", 'r') as f:
 setup(
         name='python-sample-app',
         version='1.0',
-        description='python-sample-app is a starter temp/
-	late for new python applications',
+        description=(
+    	"python-sample-app is a starter temp/"
+    	"late for new python applications"
+	),
         author='Benjamin Costa',
         author_email='benjamin.costa.75@gmail.com',
         license="MIT",
