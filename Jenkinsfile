@@ -24,7 +24,7 @@ pipeline {
                 sh '''
                     . $VENV_DIR/bin/activate
                     pip install flake8
-                    flake8 .
+                    flake8 . --exclude=venv
                 '''
             }
         }
