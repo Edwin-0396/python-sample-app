@@ -8,7 +8,8 @@ with open("README.md", 'r') as f:
 setup(
         name='python-sample-app',
         version='1.0',
-        description='python-sample-app is a starter template for new python applications',
+        description='python-sample-app is a starter temp/
+	late for new python applications',
         author='Benjamin Costa',
         author_email='benjamin.costa.75@gmail.com',
         license="MIT",
@@ -33,13 +34,14 @@ setup(
         license="<your_project_license>",
         url="<your_project_url>",
         packages=['<your_project_main_package>'],
-        #scripts=['scripts/some_script.py'],
-        #python_requires='>=3',
+        # scripts=['scripts/some_script.py'],
+        # python_requires='>=3',
         entry_points={
                 'console_scripts': [
                     '<your_command>=<your_project_main_package>.main:main',
                 ],
         },
-        #install_requires=['foo', 'bar'], # Install External packages 'foo' and 'bar' as dependencies
+        # install_requires=['foo', 'bar'], # Install /
+	# External packages 'foo' and 'bar' as dependencies
         long_description=long_description
 )
