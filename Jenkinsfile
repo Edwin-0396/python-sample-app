@@ -1,19 +1,23 @@
 pipeline {
     agent any
+
     stages {
-        stage('Setup') {
+        stage('Build') {
             steps {
-                echo 'Creating virtual environment...'
-                sh 'python3 -m venv venv'
+                // Step 1: Install dependencies
+                sh 'pip install -r requirements.txt'
+                // Step 2: Run tests
+                sh 'pytest'
             }
         }
-        stage('Test & Package') {
+        stage('Package and Publish') {
             steps {
-                echo 'Installing dependencies and running tests...'
-                sh '. venv/bin/activate && pip install -r requirements.txt'
-                sh '. venv/bin/activate && pytest tests/'
-                echo 'Packaging application...'
-                sh '. venv/bin/activate && python setup.py sdist bdist_wheel'
+                // Step 1: Build the package
+                sh 'python setup.py sdist bdist_wheel'
+                // Step 2: Publish to TestPyPI (securely, with Jenkins credentials)
+                withCredentials([string(credentialsId: 'pypi-test-token', variable: 'PYPI_TOKEN')]) {
+                    sh 'twine upload --repository testpypi -u __token__ -p $PYPI_TOKEN dist/*'
+                }
             }
         }
     }
